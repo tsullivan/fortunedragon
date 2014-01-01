@@ -13,10 +13,11 @@ exports.index = function(req, res){
 
 exports.fortune = function(req, res){
 	// http://www.dzone.com/snippets/execute-unix-command-nodejs
-	var command = "fortune"
+	var command = "fortune -s | cowsay -f dragon"
 		, sys = require('sys')
 		, exec = require('child_process').exec
-		, child;
+		, child
+		;
 
 
 	res.setHeader('Content-Type', 'application/json');

@@ -8,35 +8,44 @@
 <body>
 <canvas id="myCanvas" width="620" height="400"></canvas>
 
+<script type="text/javascript" src="vendor/jquery-2.0.3.min.js"></script>
 <script>
+(function () {
 	var canvas = document.getElementById('myCanvas')
 	, context = canvas.getContext('2d')
-	, dragonArt = atob("ICAgICAgXCAgICAgICAgICAgICAgICAgICAgLyBcICAvL1wNCiAgICAgICBcICAgIHxcX19fL3wg ICAgICAvICAgXC8vICBcXA0KICAgICAgICAgICAgLzAgIDAgIFxfXyAgLyAgICAvLyAgfCBcIFwN CiAgICAgICAgICAgLyAgICAgLyAgXC9fLyAgICAvLyAgIHwgIFwgIFwNCiAgICAgICAgICAgQF9e X0AnLyAgIFwvXyAgIC8vICAgIHwgICBcICAgXA0KICAgICAgICAgICAvL19eXy8gICAgIFwvXyAv LyAgICAgfCAgICBcICAgIFwNCiAgICAgICAgKCAvLykgfCAgICAgICAgXC8vLyAgICAgIHwgICAg IFwgICAgIFwNCiAgICAgICggLyAvKSBffF8gLyAgICkgIC8vICAgICAgIHwgICAgICBcICAgICBf XA0KICAgICggLy8gLykgJy8sXyBfIF8vICAoIDsgLS4gICAgfCAgICBfIF9cLi1+ICAgICAgICAu LX5+fl4tLg0KICAoKCAvIC8gKSkgLC17ICAgICAgICBfICAgICAgYC0ufC4tfi0uICAgICAgICAg ICAufiAgICAgICAgIGAuDQogKCggLy8gLyApKSAgJy9cICAgICAgLyAgICAgICAgICAgICAgICAg fi0uIF8gLi1+ICAgICAgLi1+Xi0uICBcDQogKCggLy8vICkpICAgICAgYC4gICB7ICAgICAgICAg ICAgfSAgICAgICAgICAgICAgICAgICAvICAgICAgXCAgXA0KICAoKCAvICkpICAgICAuLS0tLX4t LlwgICAgICAgIFwtJyAgICAgICAgICAgICAgICAgLn4gICAgICAgICBcICBgLiBcXi0uDQogICAg ICAgICAgICAgLy8vLi0tLS0uLj4gICAgICAgIFwgICAgICAgICAgICAgXyAtfiAgICAgICAgICAg ICBgLiAgXi1gICBeLV8NCiAgICAgICAgICAgICAgIC8vLy0uXyBfIF8gXyBfIF8gX31eIC0gLSAt IC0gfiAgICAgICAgICAgICAgICAgICAgIH4tLSAsLi1+DQogICAgICAgICAgICAgICAgICAgICAg ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAvLi1+")
-	, dragonLines = dragonArt.split("\n")
-	, l = 0
-	, initialOffset = 16
-	, offset = 0;
+	, textHeight = 10
+	, textPadding = 6
+	;
 
-	// TODO get these from ajax
-	var quote = atob("VGhlIGNhbWVsIGRpZWQgcXVpdGUgc3VkZGVubHkgb24gdGhlIHNlY29uZCBkYXksIGFuZCBTZWxl bmEgZnJldHRlZApzdWxsZW5seSBhbmQsIGJ1ZmZpbmcgaGVyIGFscmVhZHkgaW1wZWNjYWJsZSBu YWlscyAtLSBub3QgZm9yIHRoZSBmaXJzdAp0aW1lIHNpbmNlIHRoZSBqb3VybmV5IGJlZ2FpbiAt LSBwb25kZXJlZCBzbmlkZWx5IGlmIHRoaXMgd291bGQgZGlzc29sdmUKaW50byBhIHZpZ25ldHRl IG9mIG1pbm9yIGluY29udmVuaWVuY2VzIGxpa2UgYWxsIHRoZSBvdGhlciBob2xpZGF5cyBzcGVu dAp3aXRoIEJhc2lsLgogICAgICAgICAgICAgICAgLS0gV2lubmluZyBzZW50ZW5jZSwgMTk4MyBC dWx3ZXItTHl0dG9uIGJhZCBmaWN0aW9uIGNvbnRlc3QuCg==")
-	, quoteLines = quote.split("\n");
-
-	context.font = '10pt Monaco';
+	context.font = textHeight + 'pt Monaco';
 	context.textAlign = 'left';
 	context.fillStyle = 'black';
 
-	// quote
-	while (l < quoteLines.length - 1) {
-		offset = initialOffset * (l + 1);
-		context.fillText(quoteLines[l], (initialOffset / 2) + 1, offset);
-		l++;
-	}
-	l = 0;
+	getArt(drawScene);
 
-	// dragon
-	while (l < dragonLines.length - 1) {
-		context.fillText(dragonLines[l], 0, (initialOffset * ++l) + offset);
+ 	function getArt(cb) {
+		$.get("/fortune").complete(function (response) {
+			var message = response.responseJSON.message
+			, messageLines = message.split("\n");
+
+			messageLines.pop(); // delete last newline
+			cb(messageLines);
+		});
 	}
+
+	function drawScene(messageLines) {
+		var offset = 0
+		, l = 0
+		;
+
+		while (l < messageLines.length) {
+			offset = (textHeight + textPadding) * (l + 1);
+			context.fillText(messageLines[l], 0, offset);
+			l++;
+		}
+	}
+
+}());
 </script>
 </body>
 </html>
