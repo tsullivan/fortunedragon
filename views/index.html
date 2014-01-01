@@ -3,8 +3,40 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Test</title>
+	<link rel="stylesheet" href="stylesheets/style.css">
 </head>
 <body>
-	<p>Test</p>
+<canvas id="myCanvas" width="620" height="400"></canvas>
+
+<script>
+	var canvas = document.getElementById('myCanvas')
+	, context = canvas.getContext('2d')
+	, dragonArt = atob("ICAgICAgXCAgICAgICAgICAgICAgICAgICAgLyBcICAvL1wNCiAgICAgICBcICAgIHxcX19fL3wg ICAgICAvICAgXC8vICBcXA0KICAgICAgICAgICAgLzAgIDAgIFxfXyAgLyAgICAvLyAgfCBcIFwN CiAgICAgICAgICAgLyAgICAgLyAgXC9fLyAgICAvLyAgIHwgIFwgIFwNCiAgICAgICAgICAgQF9e X0AnLyAgIFwvXyAgIC8vICAgIHwgICBcICAgXA0KICAgICAgICAgICAvL19eXy8gICAgIFwvXyAv LyAgICAgfCAgICBcICAgIFwNCiAgICAgICAgKCAvLykgfCAgICAgICAgXC8vLyAgICAgIHwgICAg IFwgICAgIFwNCiAgICAgICggLyAvKSBffF8gLyAgICkgIC8vICAgICAgIHwgICAgICBcICAgICBf XA0KICAgICggLy8gLykgJy8sXyBfIF8vICAoIDsgLS4gICAgfCAgICBfIF9cLi1+ICAgICAgICAu LX5+fl4tLg0KICAoKCAvIC8gKSkgLC17ICAgICAgICBfICAgICAgYC0ufC4tfi0uICAgICAgICAg ICAufiAgICAgICAgIGAuDQogKCggLy8gLyApKSAgJy9cICAgICAgLyAgICAgICAgICAgICAgICAg fi0uIF8gLi1+ICAgICAgLi1+Xi0uICBcDQogKCggLy8vICkpICAgICAgYC4gICB7ICAgICAgICAg ICAgfSAgICAgICAgICAgICAgICAgICAvICAgICAgXCAgXA0KICAoKCAvICkpICAgICAuLS0tLX4t LlwgICAgICAgIFwtJyAgICAgICAgICAgICAgICAgLn4gICAgICAgICBcICBgLiBcXi0uDQogICAg ICAgICAgICAgLy8vLi0tLS0uLj4gICAgICAgIFwgICAgICAgICAgICAgXyAtfiAgICAgICAgICAg ICBgLiAgXi1gICBeLV8NCiAgICAgICAgICAgICAgIC8vLy0uXyBfIF8gXyBfIF8gX31eIC0gLSAt IC0gfiAgICAgICAgICAgICAgICAgICAgIH4tLSAsLi1+DQogICAgICAgICAgICAgICAgICAgICAg ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAvLi1+")
+	, dragonLines = dragonArt.split("\n")
+	, l = 0
+	, initialOffset = 16
+	, offset = 0;
+
+	// TODO get these from ajax
+	var quote = atob("VGhlIGNhbWVsIGRpZWQgcXVpdGUgc3VkZGVubHkgb24gdGhlIHNlY29uZCBkYXksIGFuZCBTZWxl bmEgZnJldHRlZApzdWxsZW5seSBhbmQsIGJ1ZmZpbmcgaGVyIGFscmVhZHkgaW1wZWNjYWJsZSBu YWlscyAtLSBub3QgZm9yIHRoZSBmaXJzdAp0aW1lIHNpbmNlIHRoZSBqb3VybmV5IGJlZ2FpbiAt LSBwb25kZXJlZCBzbmlkZWx5IGlmIHRoaXMgd291bGQgZGlzc29sdmUKaW50byBhIHZpZ25ldHRl IG9mIG1pbm9yIGluY29udmVuaWVuY2VzIGxpa2UgYWxsIHRoZSBvdGhlciBob2xpZGF5cyBzcGVu dAp3aXRoIEJhc2lsLgogICAgICAgICAgICAgICAgLS0gV2lubmluZyBzZW50ZW5jZSwgMTk4MyBC dWx3ZXItTHl0dG9uIGJhZCBmaWN0aW9uIGNvbnRlc3QuCg==")
+	, quoteLines = quote.split("\n");
+
+	context.font = '10pt Monaco';
+	context.textAlign = 'left';
+	context.fillStyle = 'black';
+
+	// quote
+	while (l < quoteLines.length - 1) {
+		offset = initialOffset * (l + 1);
+		context.fillText(quoteLines[l], (initialOffset / 2) + 1, offset);
+		l++;
+	}
+	l = 0;
+
+	// dragon
+	while (l < dragonLines.length - 1) {
+		context.fillText(dragonLines[l], 0, (initialOffset * ++l) + offset);
+	}
+</script>
 </body>
 </html>
