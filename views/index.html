@@ -2,8 +2,19 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Test</title>
-	<link rel="stylesheet" href="stylesheets/style.css">
+	<title>Fortune Dragon</title>
+	<style type="text/css">
+		body {
+		  padding: 0;
+		  margin: 0;
+		  background-color: black;
+		}
+		canvas {
+		  margin-top: 6%;
+		  margin-left: 20%;
+		  width: 60%;
+		}
+	</style>
 </head>
 <body>
 
@@ -18,7 +29,7 @@
 	, textPadding = 3
 	;
 
-	context.font = textHeight + 'px ocraextended';
+	context.font = textHeight + 'px courier';
 
 	var lingrad = context.createLinearGradient(0, -90, 0, canvas.height);
 	lingrad.addColorStop(0, '#FF3300');
