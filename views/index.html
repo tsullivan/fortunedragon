@@ -6,20 +6,27 @@
 	<link rel="stylesheet" href="stylesheets/style.css">
 </head>
 <body>
-<canvas id="myCanvas" width="620" height="400"></canvas>
+
+<canvas id="myCanvas" width="530" height="380"></canvas>
 
 <script type="text/javascript" src="vendor/jquery-2.0.3.min.js"></script>
 <script>
 (function () {
 	var canvas = document.getElementById('myCanvas')
 	, context = canvas.getContext('2d')
-	, textHeight = 10
-	, textPadding = 6
+	, textHeight = 12
+	, textPadding = 3
 	;
 
-	context.font = textHeight + 'pt Monaco';
-	context.textAlign = 'left';
-	context.fillStyle = 'black';
+	context.font = textHeight + 'px ocraextended';
+
+	var lingrad = context.createLinearGradient(0, -90, 0, canvas.height);
+	lingrad.addColorStop(0, '#FF3300');
+	lingrad.addColorStop(0.5, '#FFFFCC');
+	lingrad.addColorStop(0.5, '#66CC00');
+	lingrad.addColorStop(1, '#CC9900');
+
+	context.fillStyle = lingrad;
 
 	getArt(drawScene);
 
@@ -34,15 +41,27 @@
 	}
 
 	function drawScene(messageLines) {
-		var offset = 0
+		var offset = canvas.height - messageLines.length * (textHeight + textPadding)
 		, l = 0
 		;
 
 		while (l < messageLines.length) {
-			offset = (textHeight + textPadding) * (l + 1);
-			context.fillText(messageLines[l], 0, offset);
-			l++;
+			offset = offset + (textHeight + textPadding)
+			context.fillText(messageLines[l++], 0, offset);
 		}
+
+		// partial coloring
+		context.globalCompositeOperation = "source-atop";
+
+		// red eyes
+		context.fillStyle = "rgba(255, 255, 255, 0.8)";
+		context.fillRect(92, 175, 30, 10);
+
+		// red fire
+		context.fillStyle = "rgba(255, 0, 0, 0.7)";
+		context.translate(18, 205);
+		context.rotate(Math.PI / 16);
+		context.fillRect(0, 0, 80, 130);
 	}
 
 }());
